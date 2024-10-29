@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta CNJ v3.1</title>
+    <link rel="stylesheet" href="static/css/style.css">
+    
+</head>
+<body>
+    
+    <div class="container">
+        <h1>Consulta CNJ</h1>
+        
+        <h6 class="CTECHeader">Desenvolvido Pela Coordenadoria de Tecnologia da PGM - CTEC 2024</h6>
+        <a href="" target="_blank" class="Institucional">?</a>
+        
+        
+        <form action="/resultado" method="GET">
+            <label for="tribunal">Tribunal:</label>
+                <select id="tribunal" name="tribunal">
+                    <option value=" ">Todas as instituições</option>
+                    <option value="CNJ">CNJ - Conselho Nacional de Justiça</option>
+                    <option value="PJeCor">PJeCor - Corregedorias</option>
+                    <option value="SEEU">Sistema Eletrônico de Execução Unificado</option>
+                    <option value="CJF">CJF - Conselho da Justiça Federal</option>
+                    <option value="CSJT">CSJT - Conselho Superior da Justiça do Trabalho</option>
+                    <option value="STF">STF - Supremo Tribunal Federal</option>
+                    <option value="STJ">STJ - Superior Tribunal de Justiça</option>
+                    <option value="STM">STM - Superior Tribunal Militar</option>
+                    <option value="TJAC">TJAC - Tribunal de Justiça do Acre</option>
+                    <option value="TJAL">TJAL - Tribunal de Justiça de Alagoas</option>
+                    <option value="TJAM">TJAM - Tribunal de Justiça do Amazonas</option>
+                    <option value="TJAP">TJAP - Tribunal de Justiça do Amapá</option>
+                    <option value="TJBA">TJBA - Tribunal de Justiça da Bahia</option>
+                    <option value="TJCE">TJCE - Tribunal de Justiça do Ceará</option>
+                    <option value="TJDFT">TJDFT - Tribunal de Justiça do Distrito Federal e Territórios</option>
+                    <option value="TJES">TJES - Tribunal de Justiça do Espírito Santo</option>
+                    <option value="TJGO">TJGO - Tribunal de Justiça de Goiás</option>
+                    <option value="TJMA">TJMA - Tribunal de Justiça do Maranhão</option>
+                    <option value="TJMG">TJMG - Tribunal de Justiça de Minas Gerais</option>
+                    <option value="TJMMG">TJMMG - Tribunal de Justiça Militar do Estado de Minas Gerais</option>
+                    <option value="TJMRS">TJMRS - Tribunal de Justiça Militar do Estado do Rio Grande do Sul</option>
+                    <option value="TJMS">TJMS - Tribunal de Justiça do Mato Grosso do Sul</option>
+                    <option value="TJMSP">TJMSP - Tribunal de Justiça Militar do Estado de São Paulo</option>
+                    <option value="TJMT">TJMT - Tribunal de Justiça do Mato Grosso</option>
+                    <option value="TJPA">TJPA - Tribunal de Justiça do Pará</option>
+                    <option value="TJPB">TJPB - Tribunal de Justiça da Paraíba</option>
+                    <option value="TJPE">TJPE - Tribunal de Justiça de Pernambuco</option>
+                    <option value="TJPI">TJPI - Tribunal de Justiça do Piauí</option>
+                    <option value="TJPR">TJPR - Tribunal de Justiça do Paraná</option>
+                    <option value="TJRJ">TJRJ - Tribunal de Justiça do Rio de Janeiro</option>
+                    <option value="TJRN">TJRN - Tribunal de Justiça do Rio Grande do Norte</option>
+                    <option value="TJRO">TJRO - Tribunal de Justiça de Rondônia</option>
+                    <option value="TJRR">TJRR - Tribunal de Justiça de Roraima</option>
+                    <option value="TJRS">TJRS - Tribunal de Justiça do Rio Grande do Sul</option>
+                    <option value="TJSC">TJSC - Tribunal de Justiça de Santa Catarina</option>
+                    <option value="TJSE">TJSE - Tribunal de Justiça de Sergipe</option>
+                    <option value="TJSP">TJSP - Tribunal de Justiça de São Paulo</option>
+                    <option value="TJTO">TJTO - Tribunal de Justiça do Estado de Tocantins</option>
+                    <option value="TRE-AC">TRE-AC - Tribunal Regional Eleitoral do Acre</option>
+                    <option value="TRE-AL">TRE-AL - Tribunal Regional Eleitoral de Alagoas</option>
+                    <option value="TRE-AM">TRE-AM - Tribunal Regional Eleitoral do Amazonas</option>
+                    <option value="TRE-AP">TRE-AP - Tribunal Regional Eleitoral do Amapá</option>
+                    <option value="TRE-BA">TRE-BA - Tribunal Regional Eleitoral da Bahia</option>
+                    <option value="TRE-CE">TRE-CE - Tribunal Regional Eleitoral do Ceará</option>
+                    <option value="TRE-DF">TRE-DF - Tribunal Regional Eleitoral do Distrito Federal e Territórios</option>
+                    <option value="TRE-ES">TRE-ES - Tribunal Regional Eleitoral do Espírito Santo</option>
+                    <option value="TRE-GO">TRE-GO - Tribunal Regional Eleitoral de Goiás</option>
+                    <option value="TRE-MA">TRE-MA - Tribunal Regional Eleitoral do Maranhão</option>
+                    <option value="TRE-MG">TRE-MG - Tribunal Regional Eleitoral de Minas Gerais</option>
+                    <option value="TRE-MS">TRE-MS - Tribunal Regional Eleitoral do Mato Grosso do Sul</option>
+                    <option value="TRE-MT">TRE-MT - Tribunal Regional Eleitoral do Mato Grosso</option>
+                    <option value="TRE-PA">TRE-PA - Tribunal Regional Eleitoral do Pará</option>
+                    <option value="TRE-PB">TRE-PB - Tribunal Regional Eleitoral da Paraíba</option>
+                    <option value="TRE-PE">TRE-PE - Tribunal Regional Eleitoral de Pernambuco</option>
+                    <option value="TRE-PI">TRE-PI - Tribunal Regional Eleitoral do Piauí</option>
+                    <option value="TRE-PR">TRE-PR - Tribunal Regional Eleitoral do Paraná</option>
+                    <option value="TRE-RJ">TRE-RJ - Tribunal Regional Eleitoral do Rio de Janeiro</option>
+                    <option value="TRE-RN">TRE-RN - Tribunal Regional Eleitoral do Rio Grande do Norte</option>
+                    <option value="TRE-RO">TRE-RO - Tribunal Regional Eleitoral de Rondônia</option>
+                    <option value="TRE-RR">TRE-RR - Tribunal Regional Eleitoral de Roraima</option>
+                    <option value="TRE-RS">TRE-RS - Tribunal Regional Eleitoral do Rio Grande do Sul</option>
+                    <option value="TRE-SC">TRE-SC - Tribunal Regional Eleitoral de Santa Catarina</option>
+                    <option value="TRE-SE">TRE-SE - Tribunal Regional Eleitoral de Sergipe</option>
+                    <option value="TRE-SP">TRE-SP - Tribunal Regional Eleitoral de São Paulo</option>
+                    <option value="TRE-TO">TRE-TO - Tribunal Regional Eleitoral de Tocantins</option>
+                    <option value="TRF1">TRF1 - Tribunal Regional Federal da 1ª Região</option>
+                    <option value="TRF2">TRF2 - Tribunal Regional Federal da 2ª Região</option>
+                    <option value="TRF3">TRF3 - Tribunal Regional Federal da 3ª Região</option>
+                    <option value="TRF4">TRF4 - Tribunal Regional Federal da 4ª Região</option>
+                    <option value="TRF5">TRF5 - Tribunal Regional Federal da 5ª Região</option>
+                    <option value="TRF6">TRF6 - Tribunal Regional Federal da 6ª Região</option>
+                    <option value="TRT1">TRT1 - Tribunal Regional do Trabalho da 1ª Região</option>
+                    <option value="TRT10">TRT10 - Tribunal Regional do Trabalho da 10ª Região</option>
+                    <option value="TRT11">TRT11 - Tribunal Regional do Trabalho da 11ª Região</option>
+                    <option value="TRT12">TRT12 - Tribunal Regional do Trabalho da 12ª Região</option>
+                    <option value="TRT13">TRT13 - Tribunal Regional do Trabalho da 13ª Região</option>
+                    <option value="TRT14">TRT14 - Tribunal Regional do Trabalho da 14ª Região</option>
+                    <option value="TRT15">TRT15 - Tribunal Regional do Trabalho da 15ª Região</option>
+                    <option value="TRT16">TRT16 - Tribunal Regional do Trabalho da 16ª Região</option>
+                    <option value="TRT17">TRT17 - Tribunal Regional do Trabalho da 17ª Região</option>
+                    <option value="TRT18">TRT18 - Tribunal Regional do Trabalho da 18ª Região</option>
+                    <option value="TRT19">TRT19 - Tribunal Regional do Trabalho da 19ª Região</option>
+                    <option value="TRT2">TRT2 - Tribunal Regional do Trabalho da 2ª Região</option>
+                    <option value="TRT20">TRT20 - Tribunal Regional do Trabalho da 20ª Região</option>
+                    <option value="TRT21">TRT21 - Tribunal Regional do Trabalho da 21ª Região</option>
+                    <option value="TRT22">TRT22 - Tribunal Regional do Trabalho da 22ª Região</option>
+                    <option value="TRT23">TRT23 - Tribunal Regional do Trabalho da 23ª Região</option>
+                    <option value="TRT24">TRT24 - Tribunal Regional do Trabalho da 24ª Região</option>
+                    <option value="TRT3">TRT3 - Tribunal Regional do Trabalho da 3ª Região</option>
+                    <option value="TRT4">TRT4 - Tribunal Regional do Trabalho da 4ª Região</option>
+                    <option value="TRT5">TRT5 - Tribunal Regional do Trabalho da 5ª Região</option>
+                    <option value="TRT6">TRT6 - Tribunal Regional do Trabalho da 6ª Região</option>
+                    <option value="TRT7">TRT7 - Tribunal Regional do Trabalho da 7ª Região</option>
+                    <option value="TRT8">TRT8 - Tribunal Regional do Trabalho da 8ª Região</option>
+                    <option value="TRT9">TRT9 - Tribunal Regional do Trabalho da 9ª Região</option>
+                </select>
+
+            <label for="numero_oab">Nº da OAB:</label>
+            <input type="text" id="numero_oab" name="numero_oab">
+
+            <label for="uf_oab">UF da OAB</label>
+            <input type="text" id="uf_oab" name="uf_oab">
+
+            <label for="nome_advogado">Nome do advogado</label>
+            <input type="text" id="nome_advogado" name="nome_advogado">
+
+            <label for="nome_parte">Nome da Parte:</label>
+            <input type="text" id="nome_parte" name="nome_parte">
+
+            <label for="numero_processo">Numero do Processo:</label>
+            <input type="text" id="numero_processo" name="numero_processo">
+            
+            <label for="data_inicio">Data Início:</label>
+            <input type="date" id="data_inicio" name="data_inicio">
+           
+            <label for="data_fim">Data Fim:</label>
+            <input type="date" id="data_fim" name="data_fim">
+            
+            <button class="BotaoConsultar" type="submit">Consultar</button>
+        </form>
+    </div>
+
+    <div id="loader" style="display:none;">
+        <div class="spinner"></div>
+        <p>Carregando...</p>
+    </div>
+
+    <script>
+        document.querySelector('form').onsubmit = function() {
+            document.getElementById('loader').style.display = 'flex';
+        };
+    </script>
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+   
+
+    <script>
+        $(document).ready(function() {
+            $('#numero_processo').mask('0000000-00.0000-0000000');
+            $('#numero_oab').mask('000000');
+          });
+
+        
+    </script>
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

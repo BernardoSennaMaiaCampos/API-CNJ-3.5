@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultado da Consulta</title>
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+
+    <div id="loader" style="display:none;">
+        <div class="spinner"></div>
+        <p>Carregando...</p>
+    </div>
+
+    <div class="container">
+        <h1>Resultado da Consulta</h1>
+        <h6 class="CTECHeader">Desenvolvido Pela Coordenadoria de Tecnologia da PGM - CTEC 2024</h6>
+        <br><br>
+
+        {% set params={ 
+            'tribunal': request.args.get('tribunal'), 
+            'numero_oab': request.args.get('numero_oab'), 
+            'uf_oab': request.args.get('uf_oab'), 
+            'nome_advogado': request.args.get('nome_advogado'), 
+            'nome_parte': request.args.get('nome_parte'), 
+            'numero_processo': request.args.get('numero_processo'), 
+            'data_inicio': request.args.get('data_inicio'), 
+            'data_fim': request.args.get('data_fim') 
+        } %}
+       
+        {% if not erro %}
+            <a href="/"><button class="NovaConsulta">Nova Consulta</button></a>
+
+            {% if processos %} 
+                <div class="pagination">
+                    {% if pagina > 1 %}
+                        <a href="{{ url_for('resultado', pagina=1, **params) }}">« Primeira</a>
+                    {% endif %}
+                
+                    {% set start_page = pagina - 4 if pagina > 5 else 1 %}
+                    {% set end_page = start_page + 9 if start_page + 9 <= total_paginas else total_paginas %}
+                
+                    {% if end_page - start_page < 9 %}
+                        {% set start_page = end_page - 9 if end_page - 9 > 0 else 1 %}
+                    {% endif %}
+                
+                    <div class="paginar">
+                        {% for p in range(start_page, end_page + 1) %}
+                            {% if p == pagina %}
+                                <strong>{{ p }}</strong>
+                            {% else %}
+                                <a href="{{ url_for('resultado', pagina=p, **params) }}">{{ p }}</a>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                
+                    {% if pagina < total_paginas %}
+                        <a href="{{ url_for('resultado', pagina=total_paginas, **params) }}">Última »</a>
+                    {% endif %}
+                </div>
+            {% endif %}
+
+        {% endif %}
+
+        {% if erro %}
+            <div class="error">
+                <p class="MensagemDeErro">{{MensagemDeErro |safe}}</p>
+                <br>
+                {% if "A requisição demorou demais" in MensagemDeErro %}
+                <p>Por favor, tente novamente mais tarde.</p>
+                {% else %}
+                <p>{{ erro }}</p>
+                {% endif %}
+                <br><br>
+            </div>
+        {% elif processos %}
+            <div class="process-list">
+                {% for processo in processos %}
+                    <br><br> 
+                    <div class="process-item">
+                        
+                        <p><strong>Processo:</strong> {{ processo.NumeroProcesso }}</p>
+                        <p><strong>ID:</strong> {{ processo.ID }}</p>
+                        <p class="orgao-formatado"><strong>Orgão:</strong> {{ processo.NomeOrgao |safe}}</p>
+                        <p id="LinkProcesso"><strong>Link:</strong> <a href="{{ processo.Link }}" id="LinkProcessoCor">{{ processo.Link |safe}}</a></p>
+                        <p><strong>Tipo de Documento:</strong> {{ processo.TipoDocumento }}</p>
+                        <p><strong>Classe:</strong> {{ processo.NomeClasse }}</p>
+                        <p><strong>Tribunal:</strong> {{ processo.SiglaTribunal }}</p>
+                        <p><strong>Data de Disponibilização:</strong> {{ processo['DataDisponibilizacao']| format_date |safe }}</p>
+                        <p><strong>Data de Envio:</strong> {{ processo['DataDeEnvio']| format_date |safe}}</p>
+                        
+                        <h3>Advogados Envolvidos:</h3>
+                            <ul>
+                                {% if processo.destinatario_advogados %}
+                                    {% for advogado in processo.destinatario_advogados %}
+                                        <li class="advogadoFormatado"><strong>Nome do Advogado:</strong> {{ advogado.Advogado.Nome }}</li>    
+                                        <li class="advogadoFormatado"><strong>Número OAB:</strong> {{ advogado.Advogado.NumeroOab }}</li>
+                                        <li class="advogadoFormatado"><strong>UF da OAB:</strong> {{ advogado.Advogado.UfOab }}</li>
+                                        <li class="advogadoFormatado"><strong>ID do Advogado:</strong> {{ advogado.AdvogadoId }}</li>
+                                        <li class="advogadoFormatado"><strong>ID do Destinatário Advogado:</strong> {{ advogado.Id }}</li>
+                                        <li class="advogadoFormatado"><strong>ID da Comunicação:</strong> {{ advogado.ComunicacaoId }}</li>
+                                        <li class="advogadoFormatado"><strong>Criado em:</strong> {{ advogado.CriadoEm }}</li>
+                                        <li class="advogadoFormatado"><strong>Atualizado em:</strong> {{ advogado.AtualizadoEm }}</li>
+                                        <br>
+                                        <br>
+                                    {% endfor %}
+                                {% else %}
+                                    <li><strong>A informação sobre os advogados envolvidos nesse processo não consta nos dados do CNJ.</strong></li>
+                                {% endif %}
+                            </ul>
+
+                        <div id="conteudo{{ processo.ID }}" class="close">
+                            <p class="texto-formatado"><strong>Texto:</strong> {{ processo.Texto|safe }}</p>
+                        </div>
+                        <a href="javascript:void(0);" onclick="verMais('{{ processo.ID }}')"><button id="VerMaisBotao{{ processo.ID }}" class="BotaoVerMaisTodos">Ver Mais</button></a>
+
+                        <script>
+                            function verMais(id) {
+                                try {
+                                    let artigo = document.querySelector("#conteudo" + id);
+                                    let link = document.querySelector("#VerMaisBotao" + id);
+                        
+                                    if (artigo.classList.contains("close")) {
+                                        artigo.classList.remove("close");
+                                        artigo.classList.add("metade");  
+                                        link.innerHTML = "Ver Tudo";
+                                    } else if (artigo.classList.contains("metade")) {
+                                        artigo.classList.remove("metade");
+                                        artigo.classList.add("open");  
+                                        link.innerHTML = "Ver Menos";
+                                    } else if (artigo.classList.contains("open")) {
+                                        artigo.classList.remove("open");
+                                        artigo.classList.add("close");  
+                                        link.innerHTML = "Ver Mais";
+                                    }
+                                    
+                                } catch (e) {
+                                    console.error(e);
+                                }
+                            }
+                        
+                        </script>
+                        <br><br>
+                        
+                        <h3>Partes Envolvidas:</h3>
+                        <ul>
+                            {% for destinatario in processo.destinatarios %}
+                                <li>{{ destinatario.nome }} (Polo: {{ destinatario.polo }})</li>
+                                <br>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <br>
+                    <br>
+                {% endfor %}
+            </div>
+        
+            {% if not erro %}
+            <a href="/"><button class="NovaConsulta">Nova Consulta</button></a>
+
+            {% if processos %} 
+                <div class="pagination">
+                    {% if pagina > 1 %}
+                        <a href="{{ url_for('resultado', pagina=1, **params) }}">« Primeira</a>
+                    {% endif %}
+                
+                    {% set start_page = pagina - 4 if pagina > 5 else 1 %}
+                    {% set end_page = start_page + 9 if start_page + 9 <= total_paginas else total_paginas %}
+                
+                    {% if end_page - start_page < 9 %}
+                        {% set start_page = end_page - 9 if end_page - 9 > 0 else 1 %}
+                    {% endif %}
+                
+                    <div class="paginar">
+                        {% for p in range(start_page, end_page + 1) %}
+                            {% if p == pagina %}
+                                <strong>{{ p }}</strong>
+                            {% else %}
+                                <a href="{{ url_for('resultado', pagina=p, **params) }}">{{ p }}</a>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                
+                    {% if pagina < total_paginas %}
+                        <a href="{{ url_for('resultado', pagina=total_paginas, **params) }}">Última »</a>
+                    {% endif %}
+                </div>
+            {% endif %}
+
+        {% endif %}
+
+        {% else %}
+            <p>Nenhum processo encontrado para os filtros fornecidos.</p>
+        {% endif %}
+
+        <a href="#" class="btn"></a>
+        
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const paginationLinks = document.querySelectorAll('.pagination a');
+            paginationLinks.forEach(link => {
+                link.addEventListener('click', function(event) {
+                    document.getElementById('loader').style.display = 'flex';
+                    setTimeout(() => {
+                        // Pode adicionar o que quiser aqui após carregar
+                    }, 100);
+                });
+            });
+        });
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+</body>
+</html>
